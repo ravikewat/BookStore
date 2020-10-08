@@ -1,11 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace Dnc.BookStore
 {
@@ -13,6 +7,7 @@ namespace Dnc.BookStore
     {
         public static void Main(string[] args)
         {
+            //This method return IHostBuilder object than we build and run to achive web app.
             CreateHostBuilder(args).Build().Run();
         }
 
