@@ -1,9 +1,8 @@
-﻿@using Dnc.BookStore.Model 
-@model BookModel
-@{
-    ViewData["Title"] = "GetBook";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@*@{
+    ViewBag.Title = "Book Detail - " + Model.bookDetail.Title;
+}*@
+@using Dnc.BookStore.Enums; 
+@*@model BookModel*@
 
 <div class="container">
     <h3 class="display-4">
@@ -41,67 +40,68 @@
         <div class="col col-md-6">
             <div class="row">
                 <div class="col-md-12">
-                    <h1>@Model.Title</h1>
+                    <h1>@Model.bookDetail.Title</h1>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 text-primary">
                     <span class="text-primary">By:</span>
-                    <span class="text-monospace">@Model.Author</span>
+                    <span class="text-monospace">@Model.bookDetail.Author</span>
                 </div>
             </div>
 
 
             <div class="row">
                 <div class="col-md-12">
-                    <p class="text-muted">@Model.Description</p>
+                    <p class="text-muted">@Model.bookDetail.Description</p>
                 </div>
-            </div>  
-            
-             <div class="row">
-                 <div class="col-md-4">
-                     <button class="btn btn-outline-primary">Read now..</button>
-                 </div>
-             </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <button class="btn btn-outline-primary">Read now..</button>
+                </div>
+                <small class="text-muted" ><a asp-fragment="similarBooks">See all similar books</a></small>
+            </div>
             <hr />
 
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        Lanuguage - @Model.Language
-                    </li>
-                    <li class="list-group-item">
-                        Category - @Model.Category
-                    </li>
-                    <li class="list-group-item">
-                        Pages - @Model.Pages
-                    </li>
-                </ul>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    Lanuguage - @Model.bookDetail.MultiLanguageText
+                </li>
+                <li class="list-group-item">
+                    Category - @Enum.GetName(typeof(CategoryEnum), Convert.ToInt32(Model.bookDetail.Category))
+                </li>
+                <li class="list-group-item">
+                    Pages - @Model.bookDetail.Pages
+                </li>
+            </ul>
         </div>
     </div>
     <hr />
 
-    <div class="py-3 bg-light">
+    <div class="py-3 bg-light" id="similarBooks">
         <h3 class="h3">
             Similar Books
         </h3>
         <div class="row">
-            @for (int i = 0; i < 5; i++)
+            @foreach (var book in Model.similarBooks)
             {
                 <div class="col col-md-4">
                     <div class="card mb-4 shadow">
                         <div class="card-body">
                             <svg class="card-img-top" style="background-color:grey;"></svg>
                             <span class="card-text">
-                               Title
+                                @book.Title
                             </span>
                             <p class="card-text">
-                                Description
+                                @book.Description
                             </p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <a href="/book/getbook/1" class="btn btn-sm btn-outline-secondary">Details</a>
+                                    <a href="/book/getbook/@book.Id" class="btn btn-sm btn-outline-secondary">Details</a>
                                 </div>
-                                <small class="text-muted">Author</small>
+                                <small class="text-muted">@book.Author</small>
                             </div>
                         </div>
                     </div>

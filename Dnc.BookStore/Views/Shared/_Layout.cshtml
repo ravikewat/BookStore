@@ -3,15 +3,30 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Book Store</title>
-    <link href="~/styles/main.css" rel="stylesheet" />
-    <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <title>@ViewData["Title"] | Book Store</title>
 
+    @*Environement Tag Helper to check environment and place content based on that like for example if devlopment then original version of css and js for debugging purpose on prod minified version*@
+    <environment names="Development">
+        <link href="~/styles/main.css" rel="stylesheet" />
+        <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+    </environment>
+
+
+    <environment names="Production">
+        <link href="~/styles/main.css" rel="stylesheet" />
+        @*Link tag helper we can use to set fallback url - suppose we are using cdn to load css files but its down so can set fallback url and test conditions like class and property value to check*@ 
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+              crossorigin="anonymous"
+              asp-fallback-href="~/lib/twitter-bootstrap/css/bootstrap.css"
+              asp-fallback-test-class="sr-only"
+              asp-fallback-test-property="position"
+              asp-fallback-test-value="absolute">
+    </environment>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <img src="~/images/booksnapshot2.png" style="height:50px; width:50px;"/><a class="navbar-brand" href="#"><b>@@Ur Book Store</b></a>
+            <img src="~/images/booksnapshot2.png" asp-append-version="true" style="height:50px; width:50px;" /><a class="navbar-brand" asp-controller="home" asp-action="index"><b>@@Ur Book Store</b></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -19,16 +34,19 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" asp-controller="home" asp-action="index">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/home/aboutus">About Us</a>
+                        <a class="nav-link" asp-controller="home" asp-action="aboutus">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/home/contactus">Contact Us</a>
+                        <a class="nav-link" asp-controller="home" asp-action="contactus">Contact Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/book/GetBooks">All Books</a>
+                        <a class="nav-link" asp-controller="book" asp-action="getbooks">All Books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="book" asp-action="addbook">Add New Book</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav mr-sm-2">
@@ -46,18 +64,25 @@
             </div>
         </nav>
     </header>
-    
+
     <div>
         @RenderSection("Title", required: false)
         @RenderBody()
     </div>
-    <footer class="border-top footer text-muted text-center" >
+    <footer class="border-top footer text-muted text-center">
         <div class="container">
             Copyright &copy; Ur Book Store 2020
         </div>
     </footer>
-    <script src="~/lib/jquery/jquery.min.js"></script>
-    <script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
-    @RenderSection("WelcomeAlert",false)
+    <environment include="Development">
+        <script src="~/lib/jquery/jquery.js"></script>
+        <script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/jquery/jquery.min.js"></script>
+        <script src="~/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
+    </environment>
+    
+    @RenderSection("WelcomeAlert", false)
 </body>
 </html>
