@@ -19,8 +19,10 @@ namespace Dnc.BookStore.Helpers
         }
     }
 
+    [HtmlTargetElement("custom-title")]
     public class CustomTitleTagHelper : TagHelper
     {
+        [HtmlAttributeName("for-book")]        
         public BookModel bookModel { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
@@ -28,7 +30,7 @@ namespace Dnc.BookStore.Helpers
             output.TagName = "book-title";
             output.TagMode = TagMode.StartTagAndEndTag;
             var sb = new StringBuilder();
-            sb.Append($"<span class='card-text text-muted'><b>({bookModel.Title} - {Enum.GetName(typeof(Dnc.BookStore.Enums.CategoryEnum), Convert.ToInt32(bookModel.Category))})</b></span>");
+            sb.Append($"<span class='card-text text-muted'><b>{bookModel.Title} - ({Enum.GetName(typeof(Dnc.BookStore.Enums.CategoryEnum), Convert.ToInt32(bookModel.Category))})</b></span>");
             output.Content.AppendHtml(sb.ToString());
         }
     }

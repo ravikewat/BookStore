@@ -4,14 +4,16 @@ using Dnc.BookStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Dnc.BookStore.Migrations
 {
     [DbContext(typeof(BookStoreContext))]
-    partial class BookStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20201011151340_addedbookgallerytable")]
+    partial class addedbookgallerytable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,7 +28,7 @@ namespace Dnc.BookStore.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BooksId")
+                    b.Property<int?>("BooksId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -136,11 +138,9 @@ namespace Dnc.BookStore.Migrations
 
             modelBuilder.Entity("Dnc.BookStore.Data.BookGallery", b =>
                 {
-                    b.HasOne("Dnc.BookStore.Data.Books", "Books")
+                    b.HasOne("Dnc.BookStore.Data.Books", null)
                         .WithMany("bookGallery")
-                        .HasForeignKey("BooksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BooksId");
                 });
 
             modelBuilder.Entity("Dnc.BookStore.Data.BookLanguage", b =>

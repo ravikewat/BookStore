@@ -16,5 +16,8 @@ namespace Dnc.BookStore.Data
         public DateTime? CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }
         public ICollection<BookLanguage> BookLanguage { get; set; }
+        public string BookCoverUrl { get; set; }
+        public string BookPdfUrl { get; set; }
+        public ICollection<BookGallery> bookGallery { get; set; }
     }
 }

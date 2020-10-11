@@ -1,5 +1,8 @@
 ﻿
 using Dnc.BookStore.Helpers;
+using Dnc.BookStore.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.FileProviders;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -35,5 +38,15 @@ namespace Dnc.BookStore.Model
         [Display(Name ="Author Email Address")]
         public string EmailFieldGeneratedUsingDataType { get; set; }
         public string MultiLanguageText { get; set; }
+        [Required]
+        [Display(Name ="Please upload book cover image")]
+        public IFormFile BookCover { get; set; }
+        public string BookCoverUrl { get; set; }
+        [Required]
+        [Display(Name ="Please upload book pdf")]
+        public IFormFile BookPdf { get; set; }
+        public string BookPdfUrl { get; set; }
+        public IEnumerable<IFormFile> BookGallery { get; set; }
+        public List<BookGalleryModel> BookGalleries { get; set; }
     }
 }

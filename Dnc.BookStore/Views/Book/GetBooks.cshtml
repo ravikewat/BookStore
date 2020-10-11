@@ -18,9 +18,8 @@
             <div class="col col-md-4">
                 <div class="card mb-4 shadow">
                     <div class="card-body">
-                        <svg class="card-img-top" style="background-color:grey;"></svg>
-                        <custom-title book-model="@book"></custom-title>
-                        
+                        <img src="@book.BookCoverUrl" class="img-thumbnail" />
+                        <custom-title for-book="@book" ></custom-title>                        
                         <p class="card-text p-1">
                             @book.Description
                         </p>

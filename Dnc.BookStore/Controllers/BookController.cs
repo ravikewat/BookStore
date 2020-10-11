@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
@@ -8,6 +9,8 @@ using Dnc.BookStore.Data;
 using Dnc.BookStore.Model;
 using Dnc.BookStore.Models;
 using Dnc.BookStore.Repository;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.VisualBasic;
@@ -20,10 +23,12 @@ namespace Dnc.BookStore.Controllers
         public string Title { get; set; }
         private IBookRepository bookRepository = null;
         private ILanguageRepository languageRepository = null;
-        public BookController(IBookRepository _bookRepository, ILanguageRepository _languageRepository)
+        private IWebHostEnvironment webHostEnvironment = null;
+        public BookController(IBookRepository _bookRepository, ILanguageRepository _languageRepository, IWebHostEnvironment _webHostEnvironment)
         {
             bookRepository = _bookRepository;
             languageRepository = _languageRepository;
+            webHostEnvironment = _webHostEnvironment;
         }
 
         public async Task<IActionResult> GetBooks()
@@ -56,10 +61,22 @@ namespace Dnc.BookStore.Controllers
         [HttpPost]
         public async Task<IActionResult> AddBook(BookModel book)
         {
-            //ViewBag.Languages = new SelectList(await languageRepository.GetLanguages(), "Id", "Name");
             ViewBag.Languages = await GetLanguages();
             if (ModelState.IsValid)
             {
+                string bookCoverUrl = await SaveUploadedFile(book.BookCover, "/images/book/cover/");
+
+                string bookPdfUrl = await SaveUploadedFile(book.BookPdf, "/images/book/pdfs/");
+                List<BookGallery> bookGalleries = null;
+                if (book.BookGallery != null)
+                {
+                    bookGalleries = new List<BookGallery>();
+                    foreach (var item in book.BookGallery)
+                    {
+                        bookGalleries.Add(new BookGallery { Name = item.FileName, Url = await SaveUploadedFile(item, "/images/book/gallery/") });
+                    }
+                }
+
                 Books bookToAdd = new Books
                 {
                     Title = book.Title,
@@ -67,7 +84,9 @@ namespace Dnc.BookStore.Controllers
                     Pages = book.Pages.HasValue ? book.Pages.Value : 0,
                     Author = book.Author,
                     Category = book.Category,
-                    //Languages = book.Languages,
+                    BookCoverUrl = bookCoverUrl,
+                    BookPdfUrl = bookPdfUrl,
+                    bookGallery = bookGalleries,
                     CreatedOn = DateTime.UtcNow,
                     UpdatedOn = DateTime.UtcNow
                 };
@@ -89,6 +108,19 @@ namespace Dnc.BookStore.Controllers
             }
             ModelState.AddModelError("", "Plese provide all required details to add new Book");
             return View(book);
+        }
+
+        private async Task<string> SaveUploadedFile(IFormFile file, string folderpath)
+        {
+            string fileUrl = string.Empty;
+            if (file != null)
+            {
+                fileUrl = folderpath + Guid.NewGuid().ToString() + file.FileName;
+                var fullpath = webHostEnvironment.WebRootPath + fileUrl;
+                await file.CopyToAsync(new FileStream(fullpath, FileMode.Create));
+            }
+
+            return fileUrl;
         }
 
         private async Task<List<SelectListItem>> GetLanguages()

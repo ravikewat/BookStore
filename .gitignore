@@ -7,3 +7,8 @@
 /Dnc.BookStore/bin/Debug/netcoreapp3.1
 /Dnc.BookStore/.vs/Dnc.BookStore/config
 /Dnc.BookStore/.vs/Dnc.BookStore/DesignTimeBuild
+/Dnc.BookStore/wwwroot/images/book/cover
+/Dnc.BookStore/wwwroot/images/book
+/Dnc.BookStore/wwwroot/jquery-validate
+/Dnc.BookStore/wwwroot/lib/jquery-validate
+/Dnc.BookStore/wwwroot/lib/jquery-validation-unobtrusive

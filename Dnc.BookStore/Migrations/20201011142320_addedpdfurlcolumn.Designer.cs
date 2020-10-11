@@ -4,43 +4,22 @@ using Dnc.BookStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Dnc.BookStore.Migrations
 {
     [DbContext(typeof(BookStoreContext))]
-    partial class BookStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20201011142320_addedpdfurlcolumn")]
+    partial class addedpdfurlcolumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Dnc.BookStore.Data.BookGallery", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BooksId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BooksId");
-
-                    b.ToTable("BookGallery");
-                });
 
             modelBuilder.Entity("Dnc.BookStore.Data.BookLanguage", b =>
                 {
@@ -132,15 +111,6 @@ namespace Dnc.BookStore.Migrations
                     b.HasIndex("LanguageGroupId");
 
                     b.ToTable("Languages");
-                });
-
-            modelBuilder.Entity("Dnc.BookStore.Data.BookGallery", b =>
-                {
-                    b.HasOne("Dnc.BookStore.Data.Books", "Books")
-                        .WithMany("bookGallery")
-                        .HasForeignKey("BooksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Dnc.BookStore.Data.BookLanguage", b =>
