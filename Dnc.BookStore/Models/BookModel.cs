@@ -1,4 +1,5 @@
 ﻿
+using Dnc.BookStore.Helpers;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -27,6 +28,7 @@ namespace Dnc.BookStore.Model
         public string Category { get; set; }
         [DataType(DataType.DateTime)]
         [Display(Name ="Choose Published Date")]
+        [DateValidate(UpperDate ="11/10/2012")]
         public string DtFieldGeneratedUsingDataType { get; set; }
         [DataType(DataType.EmailAddress)]
         [EmailAddress]

@@ -21,13 +21,13 @@ namespace Dnc.BookStore.Repository
         public async Task<List<BookModel>> GetBooks()
         {
             List<BookModel> allbookModels = new List<BookModel>();
-            var books = await bookStoreContext.Books.Include(b=> b.BookLanguage).ToListAsync();
-            if (books?.Any()==true)
+            var books = await bookStoreContext.Books.Include(b => b.BookLanguage).ToListAsync();
+            if (books?.Any() == true)
             {
-                
+
                 foreach (var item in books)
                 {
-                    allbookModels.Add(new BookModel { Author = item.Author, Category = item.Category, Description = item.Description, Id = item.Id, Pages = item.Pages, Title = item.Title, MultiLanguage= item.BookLanguage.Select(s=> s.LanguageId.ToString()).ToList()  });
+                    allbookModels.Add(new BookModel { Author = item.Author, Category = item.Category, Description = item.Description, Id = item.Id, Pages = item.Pages, Title = item.Title, MultiLanguage = item.BookLanguage.Select(s => s.LanguageId.ToString()).ToList() });
                 }
             }
             return allbookModels;
@@ -35,17 +35,17 @@ namespace Dnc.BookStore.Repository
 
         private void GetBookLanguages(ICollection<BookLanguage> bookLanguages)
         {
-           var data =  (from users in bookLanguages
-                            select users.LanguageId).ToList();
+            var data = (from users in bookLanguages
+                        select users.LanguageId).ToList();
         }
 
         public async Task<BookModel> GetBook(int Id)
         {
-            var item= await bookStoreContext.Books.Include(b => b.BookLanguage).ThenInclude(bl=>bl.Language).FirstOrDefaultAsync(b=> b.Id==Id);
-            return new BookModel { Author = item.Author, Category = item.Category, Description = item.Description, Id = item.Id, Pages = item.Pages, Title = item.Title, MultiLanguage = item.BookLanguage.Select(s => s.LanguageId.ToString()).ToList(), MultiLanguageText= string.Join(", ", item.BookLanguage.Select(s=> s.Language.Name) ) };
+            var item = await bookStoreContext.Books.Include(b => b.BookLanguage).ThenInclude(bl => bl.Language).FirstOrDefaultAsync(b => b.Id == Id);
+            return new BookModel { Author = item.Author, Category = item.Category, Description = item.Description, Id = item.Id, Pages = item.Pages, Title = item.Title, MultiLanguage = item.BookLanguage.Select(s => s.LanguageId.ToString()).ToList(), MultiLanguageText = string.Join(", ", item.BookLanguage.Select(s => s.Language.Name)) };
         }
 
-        public  List<BookModel> SearchBooks(string Title)
+        public List<BookModel> SearchBooks(string Title)
         {
             return null;
         }

@@ -19,10 +19,9 @@
                 <div class="card mb-4 shadow">
                     <div class="card-body">
                         <svg class="card-img-top" style="background-color:grey;"></svg>
-                        <p class="card-text">
-                            @book.Title
-                        </p>
-                        <p class="card-text">
+                        <custom-title book-model="@book"></custom-title>
+                        
+                        <p class="card-text p-1">
                             @book.Description
                         </p>
                         <div class="d-flex justify-content-between align-items-center">
