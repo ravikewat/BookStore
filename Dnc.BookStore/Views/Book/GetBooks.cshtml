@@ -10,28 +10,12 @@
 }
 
 <div class="container">
-
+ 
     <div class="row">
 
         @foreach (var book in Model)
         {
-            <div class="col col-md-4">
-                <div class="card mb-4 shadow">
-                    <div class="card-body">
-                        <img src="@book.BookCoverUrl" class="img-thumbnail" />
-                        <custom-title for-book="@book" ></custom-title>                        
-                        <p class="card-text p-1">
-                            @book.Description
-                        </p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a asp-controller="book" asp-action="getbook" asp-route-id="@book.Id" class="btn btn-sm btn-outline-secondary">Details</a>
-                            </div>
-                            <small class="text-muted">@book.Author</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            Html.RenderPartial("_bookThumbnail", book as BookModel);            
         }
 
     </div>

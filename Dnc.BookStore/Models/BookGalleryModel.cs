@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Dnc.BookStore.Models
+namespace Dnc.BookStore.Model
 {
     public class BookGalleryModel
     {

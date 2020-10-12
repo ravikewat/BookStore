@@ -18,10 +18,11 @@ namespace Dnc.BookStore
             services.AddDbContext<BookStoreContext>(options => options.UseSqlServer(@"Data Source=LAPTOP-8AM6UCA4\SQLEXPRESS;Initial Catalog=BookStore;Integrated Security=True;"));
 
             services.AddControllersWithViews();
+#if DEBUG
+            //to allow  at runtime compilation for development only and also diable client side validtion
+            services.AddRazorPages().AddRazorRuntimeCompilation();//.AddViewOptions(o=> o.HtmlHelperOptions.ClientValidationEnabled = false);
 
-            //to allow  at runtime
-            services.AddRazorPages().AddRazorRuntimeCompilation();
-
+#endif
             //inbuild DI support
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<ILanguageRepository, LanguageRepository>();
