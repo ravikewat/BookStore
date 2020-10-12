@@ -1,0 +1,6 @@
+﻿@model IEnumerable<BookModel>
+
+@foreach (var item in Model)
+{
+    <partial name="_bookThumbnail" model="@item" />
+}

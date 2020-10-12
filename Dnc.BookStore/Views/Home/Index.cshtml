@@ -20,56 +20,8 @@
 <div class="container">
     <h3 class="h3">Top Books</h3>
     <div class="row">
-        <div class="col col-md-4">
-            <div class="card mb-4 shadow">
-                <div class="card-body">
-                    <svg class="card-img-top"></svg>
-                    <p class="card-text">
-                        C# Basics
-                    </p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <a href="#" class="btn btn-sm btn-outline-secondary">Details</a>
-                        </div>
-                        <small class="text-muted">Author</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col col-md-4">
-            <div class="card mb-4 shadow">
-                <div class="card-body">
-                    <svg class="card-img-top">
-                        <image width="500" height="350" xlink:href="https://www.tutorialspoint.com/videotutorials/images/coding_ground_home.jpg" />
-                    </svg>
-                    <p class="card-text">
-                        Asp MVC Basics
-                    </p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <a href="#" class="btn btn-sm btn-outline-secondary">Details</a>
-                        </div>
-                        <small class="text-muted">Author</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col col-md-4">
-            <div class="card mb-4 shadow">
-                <div class="card-body">
-                    <svg class="card-img-top"></svg>
-                    <p class="card-text">
-                        Core Basics
-                    </p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <a href="#" class="btn btn-sm btn-outline-secondary">Details</a>
-                        </div>
-                        <small class="text-muted">Author</small>
-                    </div>
-                </div>
-            </div>
-        </div>
+       <vc:top-book count="5"></vc:top-book>
+        @*@Component.InvokeAsync("TopBook", new { count = 5 });*@
     </div>
 </div>
 @section WelcomeAlert{

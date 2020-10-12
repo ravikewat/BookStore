@@ -34,6 +34,20 @@ namespace Dnc.BookStore.Repository
             return allbookModels;
         }
 
+        public async Task<List<BookModel>> GetTopBooks(int count=3)
+        {
+            List<BookModel> allbookModels = new List<BookModel>();
+            var books = await bookStoreContext.Books.Include(b => b.BookLanguage).Take(count).ToListAsync();
+            if (books?.Any() == true)
+            {
+                foreach (var item in books)
+                {
+                    allbookModels.Add(new BookModel { Author = item.Author, Category = item.Category, Description = item.Description, Id = item.Id, Pages = item.Pages, Title = item.Title, MultiLanguage = item.BookLanguage.Select(s => s.LanguageId.ToString()).ToList(), BookCoverUrl = item.BookCoverUrl, BookPdfUrl = item.BookPdfUrl });
+                }
+            }
+            return allbookModels;
+        }
+
         private void GetBookLanguages(ICollection<BookLanguage> bookLanguages)
         {
             var data = (from users in bookLanguages

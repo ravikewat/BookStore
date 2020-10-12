@@ -11,6 +11,8 @@ namespace Dnc.BookStore.Repository
     {
         Task<List<BookModel>> GetBooks();
 
+        Task<List<BookModel>> GetTopBooks(int count);
+
         Task<BookModel> GetBook(int Id);
 
         List<BookModel> SearchBooks(string Title);
