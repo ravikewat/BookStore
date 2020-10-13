@@ -1,4 +1,6 @@
-﻿<header>
+﻿@using Microsoft.Extensions.Configuration;
+@inject Microsoft.Extensions.Options.IOptionsSnapshot<Dnc.BookStore.Models.BookAlert> iconfigurtion
+<header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <img src="~/images/booksnapshot2.png" asp-append-version="true" style="height:50px; width:50px;" /><a class="navbar-brand" asp-controller="home" asp-action="index"><b>@@Ur Book Store</b></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,4 +39,16 @@
             </form>
         </div>
     </nav>
+    @{
+        //var section = iconfigurtion.GetSection("NewBookAlert");
+        //var bookalert = new Dnc.BookStore.Models.BookAlert();
+        //iconfigurtion.Bind("NewBookAlert", bookalert);
+        if (iconfigurtion.Value.DisplayAlert)
+        {
+            <div class="alert alert-info" role="alert" style="color:orangered">
+                    <span class="badge badge-primary">New</span> @(iconfigurtion.Value.Message)
+            </div>
+        }
+    }
+
 </header>

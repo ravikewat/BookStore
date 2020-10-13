@@ -1,9 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration iconfiguration
+<!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewData["Title"] | Book Store</title>
+    <title>@ViewData["Title"] | @iconfiguration["MySettings:AppName"]</title>
 
     @*Environement Tag Helper to check environment and place content based on that like for example if devlopment then original version of css and js for debugging purpose on prod minified version*@
     <environment names="Development">
@@ -14,7 +15,7 @@
 
     <environment names="Production">
         <link href="~/styles/main.css" rel="stylesheet" />
-        @*Link tag helper we can use to set fallback url - suppose we are using cdn to load css files but its down so can set fallback url and test conditions like class and property value to check*@ 
+        @*Link tag helper we can use to set fallback url - suppose we are using cdn to load css files but its down so can set fallback url and test conditions like class and property value to check*@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
               crossorigin="anonymous"
               asp-fallback-href="~/lib/twitter-bootstrap/css/bootstrap.css"
@@ -24,15 +25,15 @@
     </environment>
 </head>
 <body>
-    
-    <partial name="_header"/>
+
+    <partial name="_header" />
 
     <div>
         @RenderSection("Title", required: false)
         @RenderBody()
     </div>
 
-    <partial name="_footer"/>
+    <partial name="_footer" />
 
     <environment include="Development">
         <script src="~/lib/jquery/jquery.js"></script>
@@ -48,7 +49,7 @@
         <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
         <script src="~/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
     </environment>
-    
+
     @RenderSection("WelcomeAlert", false)
 </body>
 </html>

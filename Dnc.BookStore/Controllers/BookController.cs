@@ -17,6 +17,7 @@ using Microsoft.VisualBasic;
 
 namespace Dnc.BookStore.Controllers
 {
+    [Route("{controller=Home}/{action=Index}/{id?}")]
     public class BookController : Controller
     {
         [ViewData]
@@ -24,6 +25,7 @@ namespace Dnc.BookStore.Controllers
         private IBookRepository bookRepository = null;
         private ILanguageRepository languageRepository = null;
         private IWebHostEnvironment webHostEnvironment = null;
+        
         public BookController(IBookRepository _bookRepository, ILanguageRepository _languageRepository, IWebHostEnvironment _webHostEnvironment)
         {
             bookRepository = _bookRepository;
@@ -31,12 +33,14 @@ namespace Dnc.BookStore.Controllers
             webHostEnvironment = _webHostEnvironment;
         }
 
+        [Route("~/all-books")]
         public async Task<IActionResult> GetBooks()
         {
             var books = await bookRepository.GetBooks();
             return View(books);
         }
 
+        [Route("~/book-details/{id:int}",Name ="book-details")]
         public async Task<IActionResult> GetBook(int Id)
         {
             var book = await bookRepository.GetBook(Id);
@@ -48,6 +52,7 @@ namespace Dnc.BookStore.Controllers
             return View(data);
         }
 
+        [Route("~/add-book",Name ="add-book")]
         public async Task<IActionResult> AddBook(bool isSuccess = false, int bookId = 0)
         {
             ViewBag.IsSuccess = isSuccess;
@@ -58,7 +63,7 @@ namespace Dnc.BookStore.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("~/add-book", Name = "add-book")]
         public async Task<IActionResult> AddBook(BookModel book)
         {
             ViewBag.Languages = await GetLanguages();
@@ -110,6 +115,7 @@ namespace Dnc.BookStore.Controllers
             return View(book);
         }
 
+        [NonAction]
         private async Task<string> SaveUploadedFile(IFormFile file, string folderpath)
         {
             string fileUrl = string.Empty;
@@ -123,6 +129,7 @@ namespace Dnc.BookStore.Controllers
             return fileUrl;
         }
 
+        [NonAction]
         private async Task<List<SelectListItem>> GetLanguages()
         {
             List<SelectListItem> selectListItems = new List<SelectListItem>();

@@ -57,7 +57,6 @@ namespace Dnc.BookStore.Repository
         public async Task<BookModel> GetBook(int Id)
         {
             var item = await bookStoreContext.Books.Include(bgl=>bgl.bookGallery).Include(b => b.BookLanguage).ThenInclude(bl=> bl.Language).FirstOrDefaultAsync(b => b.Id == Id);
-            
             return new BookModel { Author = item.Author, Category = item.Category, Description = item.Description, Id = item.Id, Pages = item.Pages, Title = item.Title, MultiLanguage = item.BookLanguage.Select(s => s.LanguageId.ToString()).ToList(), MultiLanguageText = string.Join(", ", item.BookLanguage.Select(s => s.Language.Name)), BookCoverUrl = item.BookCoverUrl, BookPdfUrl= item.BookPdfUrl, BookGalleries = (from bgl in item.bookGallery select new BookGalleryModel { Name = bgl.Name, Url = bgl.Url }).ToList() };
         }
 
